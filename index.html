@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- displays site properly based on user's device -->
+
+  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+  <link rel="stylesheet" href="./css/styles.css">
+  <title>Rock, Paper, Scissors</title>
+
+
+</head>
+
+<body>
+  <div class="page">
+    <div class="info-container">
+      <div class="title-container">
+        <span>ROCK</span>
+        <span>PAPER</span>
+        <span>SCISSORS</span>
+      </div>
+      <div class="score-container">
+        <div class="score">SCORE</div>
+        <span id="score_number">0</span>
+      </div>
+    </div>
+
+    <div class="gesture-container" id="gesture">
+
+    </div>
+
+    <div class="rules" onclick='(function(){
+                                  document.querySelector(".rules-picture").style.display = "flex";
+                                }())'>RULES</div>
+
+    <div class="rules-picture">
+      <img src="./images/image-rules.svg" alt="rules">
+      <div onclick='(function(){
+                      document.querySelector(".rules-picture").style.display = "none";
+                  }())'>X</div>
+    </div>
+
+    <script>
+      class Game {
+        constructor() {
+          this.playerpick = "";
+          this.aipick = "";
+          this.score = 0;
+        }
+
+        getPlayerPick() {
+          return this.playerpick;
+        }
+        setPlayerPick(newPick) {
+          this.playerpick = newPick;
+        }
+        getAiPick() {
+          return this.aipick;
+        }
+        setAiPick(newAiPick) {
+          this.aipick = newAiPick;
+        }
+        getScore() {
+          return this.score;
+        }
+        setScore(newScore) {
+          this.score = newScore;
+        }
+
+        run() {
+          this.setFirstBoardState();
+        }
+
+        generateAIPick() {
+          let states = ["rock", "paper", "scissors"];
+          let randomPick = Math.floor(Math.random() * 3);
+          this.setAiPick(states[randomPick]);
+        }
+
+        win() {
+          //console.log("WIN");
+          this.setScore(this.getScore() + 1);
+          this.setPlayerPick("");
+          this.setAiPick("");
+
+          //console.log(this.getScore());
+          document.querySelector("#score_number").innerText = this.getScore();
+          document.querySelector("#result-text").innerText = "YOU WIN";
+        }
+
+        tie() {
+          //console.log("TIE");
+          this.setPlayerPick("");
+          this.setAiPick("");
+
+          document.querySelector("#result-text").innerText = "IT'S A TIE";
+        }
+
+        lose() {
+          //console.log("LOSE");
+          this.setPlayerPick("");
+          this.setAiPick("");
+          this.setScore(0);
+
+          document.querySelector("#result-text").innerText = "YOU LOSE";
+        }
+
+        reset() {
+          this.setScore(0);
+          this.setPlayerPick("");
+          this.setAiPick("");
+        }
+
+        processGesture() {
+          // ROCK
+          if (this.getPlayerPick() == "rock") {
+            if (this.getAiPick() == "rock") {
+              this.tie();
+            } else if (this.getAiPick() == "paper") {
+              this.lose();
+            } else { // Scissors
+              this.win();
+            }
+            // PAPER
+          } else if (this.getPlayerPick() == "paper") {
+            if (this.getAiPick() == "rock") {
+              this.win();
+            } else if (this.getAiPick() == "paper") {
+              this.tie();
+            } else { // Scissors
+              this.lose();
+            }
+            // Scissors
+          } else {
+            if (this.getAiPick() == "rock") {
+              this.lose();
+            } else if (this.getAiPick() == "paper") {
+              this.win();
+            } else { // Scissors
+              this.tie();
+            }
+          }
+
+          // ADD restart function to PLAY AGAIN button
+          document.querySelector(".play-again").onclick = function () {
+            newGame.setFirstBoardState();
+          }
+        }
+
+        setFirstBoardState() {
+          var pickgesture_block =
+            '<img src="./images/bg-triangle.svg" alt="triangle" class="triangle">' +
+            '<div class="pick-button paper" id="paper" onclick=newGame.setSecondBoardState("paper")><div><img src="./images/icon-paper.svg" alt="paper"></div></div>' +
+            '<div class="pick-button scissors" id="scissors" onclick=newGame.setSecondBoardState("scissors")><div><img src="./images/icon-scissors.svg" alt="scissors"></div></div>' +
+            '<div class="pick-button rock" id="rock" onclick=newGame.setSecondBoardState("rock")><div><img src="./images/icon-rock.svg" alt="rock"></div></div>';
+
+          document.querySelector("#gesture").innerHTML = pickgesture_block;
+          document.querySelector("#score_number").innerText = this.getScore();
+        }
+
+        setSecondBoardState(playerpick) {
+          this.playerpick = playerpick;
+          this.generateAIPick();
+          //console.log("Player: " + this.playerpick);
+          //console.log("AI: " + this.aipick);
+
+          var result_block =
+            '<div class="result-container">' +
+            '<div class="left">' +
+            '<span>YOU PICKED</span>' +
+            '<div class="pick-circle win"></div>' +
+            '<div class="pick-button ' + this.getPlayerPick() +
+            '" id="my-pick" style="top: 0px; bottom: 0px; left: 0px; right: 0px"><div><img src="./images/icon-' + this
+            .getPlayerPick() + '.svg" alt="' + this.getPlayerPick() + '"></div></div>' +
+            '</div>' +
+
+            '<div class="result"><span id="result-text">YOU ...</span><div class="play-again">PLAY AGAIN</div></div>' +
+
+            '<div class="right">' +
+            '<span>THE HOUSE PICKED</span>' +
+            '<div class="pick-circle"></div>' +
+            '<div class="pick-button ' + this.getAiPick() +
+            '" id="house-pick" style="top: 0px; bottom: 0px; left: 0px; right: 0px"><div><img src="./images/icon-' +
+            this.getAiPick() + '.svg" alt="' + this.getAiPick() + '"></div></div>' +
+            '</div>' +
+            '</div>';
+
+          document.querySelector("#gesture").innerHTML = result_block;
+          newGame.processGesture();
+          //setTimeout(function(){newGame.processGesture();}, 2000);
+        }
+      }
+
+      // Game Initialization \\
+      var newGame = new Game();
+      newGame.run();
+    </script>
+
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,459 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: BarlowThin;
+    src: url(BarlowSemiCondensed-Regular.ttf);
+}
+
+@font-face {
+    font-family: BarlowBold;
+    src: url(BarlowSemiCondensed-Bold.ttf);
+}
+
+//deklarace breakpointu v sassu pomocí mixinu
+@mixin mQ($px) {
+    @media screen and (max-width:$px) {
+        @content;
+    }
+}
+
+@mixin mQ2($px) {
+    @media screen and (min-width:$px) {
+        @content;
+    }
+}
+
+html {
+    background: radial-gradient(circle, hsl(214, 47%, 23%), hsl(237, 49%, 15%));
+    
+}
+
+.page {
+    width: 100%;
+    height: 100vh;
+    font-family: BarlowThin;
+    color: white;
+
+    @include mQ(400px) {
+        height: 110vh;
+    }
+
+    .info-container {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: row;
+        top: 25px;
+        margin: 0 auto;
+        padding: 25px;
+        border: 2px solid hsl(217, 16%, 45%);
+        border-radius: 10px;
+        width: 50%;
+
+
+        @include mQ(700px) {
+            padding: 15px;
+            width: 90%;
+        }
+
+        @include mQ(600px) {
+            padding: 15px;
+            width: 90%;
+            flex-direction: column;
+            align-items: start;
+        }
+
+        .title-container {
+            display: flex;
+            justify-content: center;
+            align-items: left;
+            flex-direction: column;
+            font-family: BarlowBold;
+            font-size: 32px;
+
+            @include mQ(400px) {
+                font-size: 26px;
+            }
+
+            @include mQ(600px) {
+                flex-direction: row;
+                margin-bottom: 15px;
+
+                span+span {
+                    margin-left: 15px;
+                }
+            }
+
+            span {
+                margin: -5px;
+            }
+        }
+
+        .score-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background-color: white;
+            color: black;
+            padding: 10px 30px 10px 30px;
+            border-radius: 5px;
+            color: hsl(229, 25%, 31%);
+
+            @include mQ(600px) {
+                padding: 5px 10px 5px 10px;
+                font-size: 15px;
+            }
+
+            #score_number {
+                font-family: BarlowBold;
+                font-size: 48px;
+
+                @include mQ(600px) {
+                    font-size: 35px;
+
+                }
+
+            }
+        }
+    }
+
+    .gesture-container {
+        position: relative;
+        transform-origin: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        top: 175px;
+        margin: 0 auto;
+        width: 300px;
+
+        @include mQ(1500px) {
+            top: 110px;
+        }
+
+
+        @include mQ(400px) {
+            top: 130px;
+        }
+
+        @include mQ2(1600px) {
+            width: 35%;
+        }
+
+        img.triangle {
+            @include mQ(1000px) {
+                width: 18rem;
+            }
+
+            @include mQ(400px) {
+                width: 13rem;
+            }
+
+            @include mQ2(1600px) {
+                width: 40rem;
+            }
+        }
+
+        // MAIN
+        .pick-button {
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            width: 140px;
+            height: 140px;
+            box-shadow: inset 0px -5px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+
+            @include mQ(600px) {
+                width: 110px;
+                height: 110px;
+            }
+
+            @include mQ2(1600px) {
+                width: 240px;
+                height: 240px;
+            }
+
+            div {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 50%;
+                width: 110px;
+                height: 110px;
+                background-color: white;
+                box-shadow: inset 0px 5px 0px 0px rgba(0, 0, 0, 0.2);
+
+                @include mQ(600px) {
+                    width: 80px;
+                    height: 80px;
+                }
+
+                @include mQ2(1600px) {
+                    width: 195px;
+                    height: 195px;
+                }
+
+                img {
+
+                    @include mQ(600px) {
+                        width: 40px;
+
+                    }
+
+                    @include mQ2(1600px) {
+                        width: 100px;
+
+                    }
+
+                }
+            }
+        }
+
+        .paper {
+            background: linear-gradient(180deg, hsl(230, 89%, 62%), hsl(230, 89%, 65%));
+            top: -50px;
+            left: -40px;
+
+            @include mQ(400px) {
+                left: 10px;
+            }
+
+            @include mQ2(1600px) {
+                top: -80px;
+                left: -15px;
+
+            }
+        }
+
+        .rock {
+            background: linear-gradient(180deg, hsl(349, 71%, 52%), hsl(349, 70%, 56%));
+            top: 150px;
+
+            @include mQ(400px) {
+                top: 110px;
+            }
+
+            @include mQ2(1600px) {
+                top: 375px;
+
+            }
+        }
+
+        .scissors {
+            background: linear-gradient(180deg, hsl(39, 89%, 49%), hsl(40, 84%, 53%));
+            top: -50px;
+            right: -40px;
+
+            @include mQ(400px) {
+                right: 10px;
+            }
+
+            @include mQ2(1600px) {
+                top: -80px;
+                right: -15px;
+
+            }
+        }
+
+        // RESULT
+
+        .result-container {
+            position: absolute;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 900px;
+            font-family: BarlowBold;
+            font-size: 25px;
+            margin-top: 100px;
+
+            @include mQ(1000px) {
+                width: 600px;
+            }
+
+            @include mQ(700px) {
+                position: relative;
+                justify-content: center;
+                flex-direction: column;
+                width: 500px;
+                padding: 0px;
+                margin: 0px;
+                margin-top: -60px;
+            }
+
+            @include mQ2(1000px) {
+                height: 75vh;
+                align-items: flex-end;
+            }
+
+            .left,
+            .right {
+                position: relative;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+
+                span {
+                    @include mQ(1000px) {
+                        display: none;
+                    }
+                }
+
+                .pick-circle {
+                    display: flex;
+                }
+
+                .pick-button {
+                    position: relative;
+                    display: flex;
+                    margin-top: 50px;
+                    width: 300px;
+                    height: 300px;
+
+                    @include mQ(1000px) {
+                        width: 140px;
+                        height: 140px;
+                        margin-top: 10px;
+                    }
+
+                    @include mQ(600px) {
+                        width: 110px;
+                        height: 110px;
+                    }
+
+                    div {
+                        width: 250px;
+                        height: 250px;
+
+                        @include mQ(1000px) {
+                            width: 110px;
+                            height: 110px;
+                        }
+
+                        @include mQ(600px) {
+                            width: 80px;
+                            height: 80px;
+                        }
+
+                        img {
+                            width: 50px;
+
+                            @include mQ(600px) {
+                                width: 40px;
+                            }
+
+                            @include mQ2(1000px) {
+                                width: 100px;
+                            }
+
+                            @include mQ2(1600px) {
+                                width: 130px;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .result {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                padding: 25px;
+                margin-top: 100px;
+
+                @include mQ(1000px) {
+                    margin-top: 0px;
+                }
+
+                @include mQ2(1000px) {
+                    margin-bottom: 100px;
+                }
+
+                #result-text {
+                    display: flex;
+                    font-size: 50px;
+                    margin-bottom: 25px;
+
+                    @include mQ(600px) {
+                        font-size: 40px;
+                    }
+                }
+
+                .play-again {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    text-align: center;
+                    background-color: white;
+                    color: black;
+                    font-family: BarlowThin;
+                    cursor: pointer;
+                    border-radius: 5px;
+                    width: 200px;
+                    padding: 10px;
+
+                    @include mQ(600px) {
+                        width: 170px;
+                        padding: 6px;
+                        font-size: 20px;
+                    }
+                }
+            }
+        }
+    }
+
+    .rules {
+        position: absolute;
+        bottom: 50px;
+        right: 50px;
+        padding: 10px 40px 10px 40px;
+        border: 1px solid white;
+        border-radius: 15px;
+        cursor: pointer;
+
+        @include mQ(600px) {
+            bottom: 40px;
+            right: 40px;
+
+        }
+
+        @include mQ(600px) {
+            height: 42px;
+            top: 107px;
+        }
+
+        @include mQ2(1600px) {
+            padding: 16px 75px 16px 75px;
+        }
+
+    }
+
+    .rules-picture {
+        position: absolute;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        background-color: white;
+        color: black;
+        top: 0px;
+        width: 100%;
+        height: 100vh;
+
+        div {
+            margin-top: 75px;
+            cursor: pointer;
+        }
+    }
+}
